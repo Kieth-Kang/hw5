@@ -19,7 +19,7 @@ window.addEventListener('DOMContentLoaded', async function() {
       let days = daysInput.value
   
       // - Check to see if the user entered anything; if so:
-      if(location.length > 0){
+      if(location.length > 0 && days.length > 0 && daysInput.value > 0){
   
         // - Construct a URL to call the WeatherAPI.com API
         let url = `https://api.weatherapi.com/v1/forecast.json?key=3cbfd057b7b24989983155532212704&q=${location}&days=${days}`
@@ -36,7 +36,6 @@ window.addEventListener('DOMContentLoaded', async function() {
         // - Store the interpreted location, current weather conditions, the forecast as three separate variables
         let interpretedLocation = json.location
         let currentWeather = json.current
-        let forecastWeather = json.forecast
   
         // Store a reference to the "current" element
         let current = document.querySelector(`.current`)
@@ -53,25 +52,34 @@ window.addEventListener('DOMContentLoaded', async function() {
             </div>
           </div>
         `
-        
-        // Loop through the forecast data
-        for (let i=0; i<forecastWeather.length; i++) {
+
+        // Create a variable for the forecastday data
+        let forecastDay = json.forecast.forecastday
 
         // Store a reference to the "forecast" element
-        let forecastElement = document.querySelector(`.forecast`)
+        let forecast = document.querySelector(`.forecast`)
 
         // Fill the forecast element with the forecast weather conditions
-        forecastElement.innerHTML = `
+        forecast.innerHTML = `
         <div class="text-center space-y-8">
             <div class="font-bold text-3xl">${days} Day Forecast</div>
-            <div>
-              <img src="https:${forecastWeather.forecastday.day.condition.icon}" class="mx-auto">
-              <h1 class="text-2xl text-bold text-gray-500">2021-04-27</h1>
-              <h2 class="text-xl">High ${forecastWeather.forecastday.day.maxtemp_f}° – Low ${forecastWeather.forecastday.day.mintemp_f}°</h2>
-              <p class="text-gray-500">${forecastWeather.forecastday.day.condition.text}</h1>
+        <div>
+        `
+
+        // Loop through the forecast data
+        for (let i=0; i<forecastDay.length; i++) {
+            forecast.insertAdjacentHTML(`beforeend`,
+            `<div class="text-center space-y-8">
+                <div class="text-center">
+                    <img src="https:${forecastDay[i].day.condition.icon}" class="mx-auto">
+                    <h1 class="text-2xl text-bold text-gray-500">${forecastDay[i].date}</h1>
+                    <h2 class="text-xl">High ${forecastDay[i].day.maxtemp_f}° – Low ${forecastDay[i].day.mintemp_f}°</h2>
+                    <p class="text-gray-500">${forecastDay[i].day.condition.text}</h1>
+                <div>
             </div>
-        </div>`
+            `)
         }
-      }
+      }else {
+        alert("Please make sure to enter Location and Days. Days number should be no less than 1.")}
     }) 
   })
