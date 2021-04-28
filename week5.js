@@ -59,14 +59,14 @@ window.addEventListener('DOMContentLoaded', async function() {
         // Store a reference to the "forecast" element
         let forecast = document.querySelector(`.forecast`)
 
-        // Fill the forecast element with the forecast weather conditions
+        // Fill the forecast title
         forecast.innerHTML = `
         <div class="text-center space-y-8">
             <div class="font-bold text-3xl">${days} Day Forecast</div>
         <div>
         `
 
-        // Loop through the forecast data
+        // Loop through the forecast data with the forecast weather conditions
         for (let i=0; i<forecastDay.length; i++) {
             forecast.insertAdjacentHTML(`beforeend`,
             `<div class="text-center space-y-8">
@@ -79,6 +79,7 @@ window.addEventListener('DOMContentLoaded', async function() {
             </div>
             `)
         }
+      // Add message for users who input improper query information
       }else {
         alert("Please make sure to enter Location and Days. Days number should be no less than 1.")}
     }) 
